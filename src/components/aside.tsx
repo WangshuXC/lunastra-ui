@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
+import { headers } from "next/headers";
+import { cn } from '@/lib/utils';
 
 // 获取 @/app/components/(demos) 文件夹下的所有子文件夹
 const getDemoFolders = () => {
@@ -12,7 +14,7 @@ const getDemoFolders = () => {
     return folders;
 };
 
-function capitalizeString(str: string) {
+export function capitalizeString(str: string) {
     const words = str.split('-');
 
     const capitalizedWords = words.map(word => {
@@ -23,8 +25,10 @@ function capitalizeString(str: string) {
     return capitalizedWords.join(' ');
 }
 
-export default function Aside() {
+export default async function Aside() {
     const demoFolders = getDemoFolders();
+    const headerList = headers();
+      const pathname = (await headerList).get("x-current-path")?.split('/')[2];
 
     return (
         <aside className="shrink-0 sticky block self-start min-w-56">
@@ -35,7 +39,10 @@ export default function Aside() {
                         {demoFolders.map((folder, index) => (
                             <Link 
                                 href={`/components/${folder}`}
-                                className="group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:text-sky-400 hover:translate-x-1 transition duration-200 text-muted-foreground"
+                                className={cn(
+                                    "group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:text-sky-400 hover:translate-x-1 transition duration-200 text-muted-foreground",
+                                    pathname === folder && "font-bold"
+                                )}
                                 key={folder + index}>
                                 {capitalizeString(folder)}
                             </Link>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Aside from "@/components/aside";
+// import Aside from "@/components/aside";
 import "./globals.css";
 
 
@@ -19,10 +19,11 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <div className="pt-20">
-          <div className="mx-auto px-8 w-[1400px] flex-1 items-start flex gap-10">
+          {/* <div className="mx-auto px-8 w-[1400px] flex-1 items-start flex gap-10">
             <Aside />
             {children}
-          </div>
+          </div> */}
+          {children}
         </div>
       </body>
     </html>

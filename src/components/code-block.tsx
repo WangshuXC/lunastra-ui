@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { IconCheck, IconCopy } from "@tabler/icons-react";
 
 type CodeBlockProps = {
   language: string;
-  filename: string;
+  filename?: string;
   highlightLines?: number[];
 } & (
   | {
@@ -38,10 +38,25 @@ export const CodeBlock = ({
 
   const copyToClipboard = async () => {
     const textToCopy = tabsExist ? tabs[activeTab].code : code;
-    if (textToCopy) {
-      await navigator.clipboard.writeText(textToCopy);
+    if (!textToCopy) return;
+  
+    try {
+      if (navigator.clipboard) {
+        // 现代浏览器的剪贴板 API
+        await navigator.clipboard.writeText(textToCopy);
+      } else {
+        // 旧浏览器的兼容方案
+        const textarea = document.createElement("textarea");
+        textarea.value = textToCopy;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error("Failed to copy:", error);
     }
   };
 
@@ -73,7 +88,7 @@ export const CodeBlock = ({
             ))}
           </div>
         )}
-        {!tabsExist && filename && (
+        {!tabsExist && (
           <div className="flex justify-between items-center py-2">
             <div className="text-xs text-zinc-400">{filename}</div>
             <button
@@ -87,7 +102,7 @@ export const CodeBlock = ({
       </div>
       <SyntaxHighlighter
         language={activeLanguage}
-        style={atomDark}
+        style={oneDark}
         customStyle={{
           margin: 0,
           padding: 0,

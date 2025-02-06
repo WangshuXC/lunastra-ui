@@ -39,7 +39,7 @@ export const CodeBlock = ({
   const copyToClipboard = async () => {
     const textToCopy = tabsExist ? tabs[activeTab].code : code;
     if (!textToCopy) return;
-  
+
     try {
       if (navigator.clipboard) {
         // 现代浏览器的剪贴板 API

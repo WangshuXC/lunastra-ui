@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { CodeBlock } from "@/components/code-block";
 import { IconTerminal2, IconAppWindow } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
+import capitalizeString from "@/lib/capitalizeString";
 
 export default function SubComponentLayout({
     children,
@@ -11,14 +12,14 @@ export default function SubComponentLayout({
     children: React.ReactNode;
 }>) {
     const [isPreView, setIsPreview] = useState(true);
-    const [code, setCode] = useState("");
+    const [demoCode, setDemoCode] = useState("");
+    const [componentCode, setComponentCode] = useState("");
     const [loading, setLoading] = useState(true);
     const pathname = usePathname();
 
     useEffect(() => {
         const fetchCode = async () => {
             try {
-                // 从路径中提取组件名称
                 const component = pathname.split("/components/")[1];
 
                 if (!component) {
@@ -29,10 +30,12 @@ export default function SubComponentLayout({
                 if (!response.ok) throw new Error("Failed to fetch code");
 
                 const data = await response.json();
-                setCode(data.code);
+                setDemoCode(data.demoCode);
+                setComponentCode(data.componentCode)
             } catch (error) {
                 console.error("Error fetching code:", error);
-                setCode("// Error loading code");
+                setDemoCode("// Error loading code");
+                setComponentCode("// Error loading code");
             } finally {
                 setLoading(false);
             }
@@ -43,6 +46,7 @@ export default function SubComponentLayout({
 
     return (
         <div className="flex flex-col w-[70%] pb-10">
+            <h1 className="text-4xl font-bold mb-8">{capitalizeString(pathname.split('/components/')[1])}</h1>
             <div className="flex gap-5 mb-3">
                 <button
                     className={cn(
@@ -75,11 +79,19 @@ export default function SubComponentLayout({
                         <CodeBlock
                             language="tsx"
                             filename={`${pathname.split("/components/")[1]}.tsx`}
-                            code={code}
+                            code={demoCode}
                         />
                     )}
                 </div>
             )}
+            <h2 className="text-2xl font-bold mt-12 mb-4">Installation</h2>
+            <div className="max-h-[50vh] overflow-auto rounded-md pr-3 bg-gray-400">
+                <CodeBlock
+                    language="tsx"
+                    filename={`components/ui/${pathname.split("/components/")[1]}.tsx`}
+                    code={componentCode}
+                />
+            </div>
         </div>
     );
 }

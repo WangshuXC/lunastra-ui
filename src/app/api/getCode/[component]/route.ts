@@ -11,18 +11,24 @@ export async function GET(
     const { component } = await params;
 
     // 构建文件路径
-    const filePath = path.join(
+    const demoFilePath = path.join(
       process.cwd(),
       'src/app/components/(demos)/',
       component,
       'page.tsx'
     );
+    const componentFilePath = path.join(
+      process.cwd(),
+      'src/components/ui/',
+      component + '.tsx',
+    );
 
     // 读取文件内容
-    const fileContent = await fs.readFile(filePath, 'utf-8');
+    const demoFileContent = await fs.readFile(demoFilePath, 'utf-8');
+    const componentFileContent = await fs.readFile(componentFilePath, 'utf-8');
 
     // 返回文件内容
-    return NextResponse.json({ code: fileContent });
+    return NextResponse.json({ demoCode: demoFileContent, componentCode: componentFileContent });
   } catch (error) {
     console.error('Error reading file:', error);
     return NextResponse.json(

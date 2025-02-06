@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { headers } from "next/headers";
 import SubComponentLayout from "./subLayout";
-import { capitalizeString } from '@/components/aside'
+import capitalizeString from '@/lib/capitalizeString';
 
 export async function generateMetadata(
 ): Promise<Metadata> {

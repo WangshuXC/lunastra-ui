@@ -1,8 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
-import { headers } from "next/headers";
 import { cn } from '@/lib/utils';
+import getComponentName from '@/lib/getComponentName';
+import capitalizeString from "@/lib/capitalizeString";
 
 // 获取 @/app/components/(demos) 文件夹下的所有子文件夹
 const getDemoFolders = () => {
@@ -14,21 +15,9 @@ const getDemoFolders = () => {
     return folders;
 };
 
-export function capitalizeString(str: string) {
-    const words = str.split('-');
-
-    const capitalizedWords = words.map(word => {
-        if (word.length === 0) return '';
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    });
-
-    return capitalizedWords.join(' ');
-}
-
 export default async function Aside() {
     const demoFolders = getDemoFolders();
-    const headerList = headers();
-      const pathname = (await headerList).get("x-current-path")?.split('/')[2];
+    const pathname = await getComponentName()
 
     return (
         <aside className="shrink-0 sticky block self-start min-w-56">

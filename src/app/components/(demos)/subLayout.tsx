@@ -26,12 +26,14 @@ export default function SubComponentLayout({
           throw new Error("Invalid component path");
         }
 
-        const response = await fetch(`/api/getCode/${component}`);
-        if (!response.ok) throw new Error("Failed to fetch code");
+        const demoResponse = await fetch(`https://raw.githubusercontent.com/WangshuXC/lunastra-ui/refs/heads/main/src/app/components/(demos)/${component}/page.tsx`);
+        const componentResponse = await fetch(`https://raw.githubusercontent.com/WangshuXC/lunastra-ui/refs/heads/main/src/components/ui/${component}.tsx`);
+        if (!demoResponse.ok && !componentResponse) throw new Error("Failed to fetch code");
 
-        const data = await response.json();
-        setDemoCode(data.demoCode);
-        setComponentCode(data.componentCode);
+        const demoCode = await demoResponse.text();
+        const componentCode = await componentResponse.text();
+        setDemoCode(demoCode);
+        setComponentCode(componentCode);
       } catch (error) {
         console.error("Error fetching code:", error);
         setDemoCode("// Error loading code");

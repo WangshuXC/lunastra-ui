@@ -5,8 +5,8 @@ import capitalizeString from '@/lib/capitalizeString';
 
 export async function generateMetadata(
 ): Promise<Metadata> {
-  const headerList = headers();
-  const pathname = (await headerList).get("x-current-path")?.split('/')[2] || 'Component';
+    const headerList = headers();
+    const pathname = (await headerList).get("x-current-path")?.split('/')[2] || 'Component';
     return {
         title: capitalizeString(pathname) + ' - Lunastra Ui',
     }

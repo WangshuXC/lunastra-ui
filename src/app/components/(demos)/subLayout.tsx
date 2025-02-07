@@ -47,7 +47,7 @@ export default function SubComponentLayout({
   }, [pathname]);
 
   return (
-    <div className="flex flex-col w-[70%] pb-10">
+    <div className="flex flex-col w-[70vw] pb-10">
       <h1 className="text-4xl font-bold mb-8">
         {capitalizeString(pathname.split("/components/")[1])}
       </h1>

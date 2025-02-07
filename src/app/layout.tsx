@@ -19,10 +19,6 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <div className="pt-20">
-          {/* <div className="mx-auto px-8 w-[1400px] flex-1 items-start flex gap-10">
-            <Aside />
-            {children}
-          </div> */}
           {children}
         </div>
       </body>

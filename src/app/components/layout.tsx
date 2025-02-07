@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="mx-auto px-8 w-[1400px] flex-1 items-start flex gap-10">
+    <div className="mx-auto px-8 w-screen flex-1 items-start justify-center flex gap-10">
       <Aside />
       {children}
     </div>

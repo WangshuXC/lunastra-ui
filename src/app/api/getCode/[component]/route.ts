@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
   request: Request,
-  { params }: { params: { component: string } }
+  { params }: { params: Promise<{ component: string }> }
 ) {
   try {
     // 确保 params 被解析

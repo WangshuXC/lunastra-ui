@@ -45,7 +45,8 @@ export default function TailwindcssButtons() {
     </div>
   );
 }
-export const buttons = [
+
+const buttons = [
   {
     name: "Hover",
     description: "Hover button for your website",
